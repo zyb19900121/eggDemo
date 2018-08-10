@@ -24,7 +24,7 @@ class AppInfoService extends Service {
 				id: id
 			});
 			console.log('result: ', result);
-			return results;
+			return result;
 		} catch (err) {
 			this.logger.error(err);
 			return err.code;
