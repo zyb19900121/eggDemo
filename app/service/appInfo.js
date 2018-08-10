@@ -8,24 +8,26 @@ class AppInfoService extends Service {
 	async index() {
 		// 查询所有
 		try {
-			const results = await this.app.mysql.select('app_info');
-			console.log('results: ', results);
-			return results;
+			const result = await this.app.mysql.select('app_info');
+			console.log('result: ', result);
+			return result;
 		} catch (err) {
 			this.logger.error(err);
-			return {err};
+			return err.code;
 		}
 	}
 
 	async show(id) {
 		// 查询单条
 		try {
-			const results = await this.app.mysql.get('app_info', { id: id });
-			console.log('results: ', results);
+			const result = await this.app.mysql.get('app_info', {
+				id: id
+			});
+			console.log('result: ', result);
 			return results;
 		} catch (err) {
 			this.logger.error(err);
-			return {err};
+			return err.code;
 		}
 	}
 }

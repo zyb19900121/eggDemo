@@ -18,7 +18,7 @@ class UserService extends Service {
 			return {msg:'添加成功'};
 		} catch (err) {
 			this.logger.error(err);
-			return {err};
+			return err.code;
 		}
 	}
 

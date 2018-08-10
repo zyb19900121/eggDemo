@@ -9,12 +9,28 @@ class GameService extends Service {
 	async index() {
 		// 查询所有
 		try {
-			const results = await this.app.mysql.select('game');
-			console.log('results: ', results);
-			return results;
+			const result = await this.app.mysql.select('game', {
+				columns: ['id', 'game_name', 'game_cover']
+			});
+			console.log('result: ', result);
+			return result;
 		} catch (err) {
 			this.logger.error(err);
-			return {err};
+			return err.code;
+		}
+	}
+
+	async show(id) {
+		// 查询单条
+		try {
+			const result = await this.app.mysql.get('game', {
+				id: id
+			});
+			console.log('result: ', result);
+			return result;
+		} catch (err) {
+			this.logger.error(err);
+			return err.code;
 		}
 	}
 }
