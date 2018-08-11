@@ -9,4 +9,5 @@ module.exports = app => {
 	router.resources('user', '/api/user', controller.user);
 	router.resources('game', '/api/game', controller.game);
 	router.resources('appInfo', '/api/appInfo', controller.appInfo);
+	router.resources('log', '/api/log', controller.log);
 };
