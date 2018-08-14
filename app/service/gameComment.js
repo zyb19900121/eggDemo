@@ -1,6 +1,6 @@
 const Service = require('egg').Service;
 
-class LogService extends Service {
+class GameCommentService extends Service {
 	constructor(ctx) {
 		super(ctx);
 	}
@@ -8,7 +8,7 @@ class LogService extends Service {
 	async index() {
 		// 查询所有
 		try {
-			const result = await this.app.mysql.select('log');
+			const result = await this.app.mysql.select('game_comment');
 			console.log('result: ', result);
 			return result;
 		} catch (err) {
@@ -22,7 +22,7 @@ class LogService extends Service {
 		// this.checkSuccess(result);
 		// 插入
 		try {
-			const result = await this.app.mysql.insert('log', params); // 在 user 表中，插入 user 的记录
+			const result = await this.app.mysql.insert('game_comment', params);
 			const insertSuccess = result.affectedRows === 1;
 			if (!insertSuccess) throw new Error('添加失败');
 			return {msg:'添加成功'};
@@ -34,4 +34,4 @@ class LogService extends Service {
 
 }
 
-module.exports = LogService;
+module.exports = GameCommentService;
