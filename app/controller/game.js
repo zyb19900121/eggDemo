@@ -4,7 +4,11 @@ const Controller = require('egg').Controller;
 
 class GameController extends Controller {
 	async index() {
-		const ctx = this.ctx;
+		const {
+			ctx
+		} = this;
+		const payload = ctx.query;
+		console.log('payload: ', payload);
 		// 校验 `ctx.request.body` 是否符合我们预期的格式
 		// 如果参数校验未通过，将会抛出一个 status = 422 的异常
 		// ctx.validate(createRule, ctx.request.body);
@@ -16,8 +20,12 @@ class GameController extends Controller {
 	}
 
 	async show() {
-		const ctx = this.ctx;
-		const id = ctx.params.id
+		const {
+			ctx
+		} = this;
+		const {
+			id
+		} = ctx.params
 		const result = await ctx.service.game.show(id);
 		// 设置响应体和状态码
 		ctx.body = result;

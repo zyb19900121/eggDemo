@@ -5,10 +5,24 @@ class GameCommentService extends Service {
 		super(ctx);
 	}
 
-	async index() {
+	async index(payload) {
 		// 查询所有
 		try {
-			const result = await this.app.mysql.select('game_comment');
+			const result = await this.app.mysql.select('game_comment',{});
+			console.log('result: ', result);
+			return result;
+		} catch (err) {
+			this.logger.error(err);
+			return err.code;
+		}
+	}
+
+	async show(gameId) {
+		// 根据游戏ID查询多条
+		try {
+			const result = await this.app.mysql.select('game_comment',{
+				where:{ game_id: gameId}
+			});
 			console.log('result: ', result);
 			return result;
 		} catch (err) {
