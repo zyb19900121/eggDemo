@@ -6,9 +6,16 @@ class GameCommentService extends Service {
 	}
 
 	async index(payload) {
+		console.log('payload: ', payload);
 		// 查询所有
 		try {
-			const result = await this.app.mysql.select('game_comment',{});
+			const result = await this.app.mysql.select('game_comment', {
+				where: {
+					game_id: payload.gameId
+				},
+				limit: payload.pageSize * 1, // 返回数据量
+				offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
+			});
 			console.log('result: ', result);
 			return result;
 		} catch (err) {
@@ -17,11 +24,11 @@ class GameCommentService extends Service {
 		}
 	}
 
-	async show(gameId) {
-		// 根据游戏ID查询多条
+	async show(id) {
+		// 查询单条
 		try {
-			const result = await this.app.mysql.select('game_comment',{
-				where:{ game_id: gameId}
+			const result = await this.app.mysql.get('game_comment', {
+				id: id
 			});
 			console.log('result: ', result);
 			return result;
@@ -39,7 +46,9 @@ class GameCommentService extends Service {
 			const result = await this.app.mysql.insert('game_comment', params);
 			const insertSuccess = result.affectedRows === 1;
 			if (!insertSuccess) throw new Error('添加失败');
-			return {msg:'添加成功'};
+			return {
+				msg: '添加成功'
+			};
 		} catch (err) {
 			this.logger.error(err);
 			return err.code;
