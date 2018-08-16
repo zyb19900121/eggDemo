@@ -9,13 +9,20 @@ class GameCommentService extends Service {
 		console.log('payload: ', payload);
 		// 查询所有
 		try {
-			const result = await this.app.mysql.select('game_comment', {
+			let result = {};
+			//查询结果的数组
+			result.list = await this.app.mysql.select('game_comment', {
 				where: {
 					game_id: payload.gameId
 				},
 				limit: payload.pageSize * 1, // 返回数据量
 				offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
+				orders: [['create_date', 'desc']] //排序
 			});
+			//查询结果的总数
+			result.total = await this.app.mysql.count('game_comment', {
+				game_id: payload.gameId
+			})
 			console.log('result: ', result);
 			return result;
 		} catch (err) {
