@@ -7,7 +7,7 @@ module.exports = appInfo => {
 		listen: {
 			port: 3000,
 			// hostname: '127.0.0.1',
-			hostname: '172.23.177.47',
+			hostname: '172.23.177.47',//测试
 			
 			// path: '/var/run/egg.sock',
 		}
