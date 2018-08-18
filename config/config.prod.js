@@ -5,8 +5,8 @@ module.exports = appInfo => {
 
 	exports.cluster = {
 		listen: {
-			port: 80,
-			hostname: '172.17.40.153',
+			port: 3000,
+			hostname: '172.21.0.9',
 			// path: '/var/run/egg.sock',
 		}
 	}
@@ -45,9 +45,9 @@ module.exports = appInfo => {
 			// 用户名
 			user: 'root',
 			// 密码
-			password: 'xiaomanjia2017',
+			password: '19900121',
 			// 数据库名
-			database: 'demo',
+			database: 'my_game',
 		},
 		// 是否加载到 app 上，默认开启
 		app: true,
