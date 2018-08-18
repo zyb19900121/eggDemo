@@ -37,10 +37,15 @@ class GameCommentController extends Controller {
 
 	async create() {
 		const ctx = this.ctx;
-		const result = await ctx.service.gameComment.create(ctx.request.body);
-		// 设置响应体和状态码
-		ctx.body = result;
-		ctx.status = 200;
+		try {
+			const result = await ctx.service.gameComment.create(ctx.request.body);
+			// 设置响应体和状态码
+			ctx.body = result;
+			ctx.status = 200;
+		} catch (error) {
+			ctx.status = 500;
+			ctx.body = {error:error.toString()};
+		}
 	}
 }
 

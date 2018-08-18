@@ -52,13 +52,14 @@ class GameCommentService extends Service {
 		try {
 			const result = await this.app.mysql.insert('game_comment', params);
 			const insertSuccess = result.affectedRows === 1;
+	
 			if (!insertSuccess) throw new Error('添加失败');
 			return {
 				msg: '添加成功'
 			};
 		} catch (err) {
-			this.logger.error(err);
-			return err.code;
+			// this.logger.error(err);
+			throw new Error(err);
 		}
 	}
 
