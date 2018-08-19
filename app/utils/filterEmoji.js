@@ -1,11 +1,11 @@
 const filterEmoji = (data) => {
-	console.log('data: ', typeof data);
-	if(data.constructor == String){
-		return data.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, "");;
-	}else{
+	const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
+	if (data.constructor == String) {
+		return data.replace(regStr, "");;
+	} else {
 		return data;
 	}
-	
+
 }
 
 module.exports = {

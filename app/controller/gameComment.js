@@ -39,10 +39,12 @@ class GameCommentController extends Controller {
 	async create() {
 		const ctx = this.ctx;
 		let newComment = {};
+		
 		//过滤emoji
 		for (const key in ctx.request.body) {
 			newComment[key] = utils.filterEmoji(ctx.request.body[key]);
 		}
+		console.log('newComment: ', newComment);
 		try {
 			const result = await ctx.service.gameComment.create(newComment);
 			// 设置响应体和状态码
