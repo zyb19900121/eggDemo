@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const utils = require('../utils/filterEmoji');
 
 class GameCommentController extends Controller {
 	async index() {
@@ -37,8 +38,13 @@ class GameCommentController extends Controller {
 
 	async create() {
 		const ctx = this.ctx;
+		let newComment = {};
+		//过滤emoji
+		for (const key in ctx.request.body) {
+			newComment[key] = utils.filterEmoji(ctx.request.body[key]);
+		}
 		try {
-			const result = await ctx.service.gameComment.create(ctx.request.body);
+			const result = await ctx.service.gameComment.create(newComment);
 			// 设置响应体和状态码
 			ctx.body = result;
 			ctx.status = 200;
