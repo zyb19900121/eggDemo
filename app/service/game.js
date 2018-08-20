@@ -6,11 +6,14 @@ class GameService extends Service {
 		// this.root = 'https://cnodejs.org/api/v1';
 	}
 
-	async index() {
+	async index(payload) {
 		// 查询所有
 		try {
 			const result = await this.app.mysql.select('game', {
-				columns: ['id', 'game_name', 'game_cover']
+				where: {
+					is_sold: payload.isSold //是否发售
+				},
+				columns: ['id', 'game_name', 'game_cover', 'game_desc', 'sale_date']
 			});
 			console.log('result: ', result);
 			return result;
