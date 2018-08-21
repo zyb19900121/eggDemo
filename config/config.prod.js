@@ -55,5 +55,17 @@ module.exports = appInfo => {
 		agent: false,
 	};
 
+		//jwt相关配置
+		exports.jwt = {
+			secret: "zhangyanbin"
+		};
+	
+		//jwt相关配置
+		config.jwt = {
+			secret: 'Great4-M',
+			enable: true, // default is false
+			match: ['/manage'], // 需要认证的接口
+		}
+
 	return config;
 };

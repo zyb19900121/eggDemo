@@ -6,6 +6,21 @@ class UserService extends Service {
 		this.root = 'https://cnodejs.org/api/v1';
 	}
 
+	async login(user) {
+		console.log('user: ', user);
+		// 查询单条
+		try {
+			const result = await this.app.mysql.count('user', {
+				username: user.username,
+				password: user.password
+			});
+			return result;
+		} catch (err) {
+			this.logger.error(err);
+			return err.code;
+		}
+	}
+
 	async create(params) {
 		// 检查调用是否成功，如果调用失败会抛出异常
 		// this.checkSuccess(result);
@@ -15,7 +30,9 @@ class UserService extends Service {
 			const result = await this.app.mysql.insert('user', params); // 在 user 表中，插入 user 的记录
 			const insertSuccess = result.affectedRows === 1;
 			if (!insertSuccess) throw new Error('添加失败');
-			return {msg:'添加成功'};
+			return {
+				msg: '添加成功'
+			};
 		} catch (err) {
 			this.logger.error(err);
 			return err.code;
