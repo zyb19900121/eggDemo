@@ -9,8 +9,9 @@
 
 
 重要更新（2018-08-21）：
-	1.添加manage的接口和用户登录接口（用于后台管理项目，小程序调用的接口为api开头，后台管理系统的接口为manage开头）
-	2.对manage和login接口进行token校验（利用egg-jwt）
+
+	1.添加manage的接口和用户登录接口（用于后台管理项目，小程序调用的接口为api开头，后台管理系统的接口为manage开头）
+	2.对manage和login接口进行token校验（利用egg-jwt）
 
 未完待续。。。
 
@@ -28,7 +29,7 @@
 ```bash
 $ npm i
 $ npm run dev
-通过修改config/config.default.js来配置环变量
+通过修改config/config.default.js来配置环变量
 ```
 
 ### 部署
@@ -36,7 +37,7 @@ $ npm run dev
 ```bash
 $ npm start
 $ npm stop
-通过修改config/config.prod.js来配置环变量
+通过修改config/config.prod.js来配置环变量
 ```
 
 <!-- ### 单元测试
