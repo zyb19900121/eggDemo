@@ -5,15 +5,22 @@ class LogService extends Service {
     super(ctx);
   }
 
-  async index() {
-    // 查询所有
+  async index(payload) {
+    console.log("payload: ", payload);
+		// 查询所有
+		
     try {
-      const result = await this.app.mysql.select("log", {
+			let result = {};
+      result.list = await this.app.mysql.select("log", {
+        limit: payload.pageSize * 1, // 返回数据量
+        offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
         orders: [["visit_date", "desc"]] //排序
       });
-      console.log("result: ", result);
+      //查询结果的总数
+			result.total = await this.app.mysql.count('log')
       return result;
     } catch (err) {
+      throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
