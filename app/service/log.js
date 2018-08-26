@@ -7,17 +7,17 @@ class LogService extends Service {
 
   async index(payload) {
     console.log("payload: ", payload);
-		// 查询所有
-		
+    // 查询所有
+
     try {
-			let result = {};
+      let result = {};
       result.list = await this.app.mysql.select("log", {
         limit: payload.pageSize * 1, // 返回数据量
         offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
         orders: [["visit_date", "desc"]] //排序
       });
       //查询结果的总数
-			result.total = await this.app.mysql.count('log')
+      result.total = await this.app.mysql.count("log");
       return result;
     } catch (err) {
       throw new Error(err);
@@ -37,6 +37,28 @@ class LogService extends Service {
       return { msg: "添加成功" };
     } catch (err) {
       this.logger.error(err);
+      return err.code;
+    }
+  }
+
+  async destroy(ids) {
+    console.log("ids: ", ids);
+    try {
+      const result = await Promise.all(
+        ids.map(async id => {
+          //删除数据
+          let singleResult = await this.app.mysql.delete("log", {
+            id: id
+					});
+					const insertSuccess = singleResult.affectedRows === 1;
+					console.log('singleResult.affectedRows: ', singleResult.affectedRows);
+					if (!insertSuccess) throw new Error('删除失败');
+        })
+      );
+      return result;
+    } catch (error) {
+      throw new Error(error);
+      this.logger.error(error);
       return err.code;
     }
   }
