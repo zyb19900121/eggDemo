@@ -22,7 +22,8 @@
 	
 小更新（2018-08-26）：
 
-	1.实现访问日志接口（log）的单条删除与多条删除 http://host/manage/log/1,2,3 请求方法是DELETE 与get不同的是参数是以url/ids的形式发送到后台的，而不是url?querystring的方式 （RESTful api的风格）
+	1.实现访问日志接口（log）的单条删除与多条删除 http://host/manage/log/1,2,3 请求方法是DELETE 
+	与get不同的是参数是以url/ids的形式发送到后台的，而不是url?querystring的方式 （RESTful api的风格）
 	
 未完待续。。。
 
