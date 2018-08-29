@@ -67,6 +67,28 @@ class GameCommentService extends Service {
       throw new Error(err);
     }
   }
+
+  async destroy(ids) {
+    console.log("ids: ", ids);
+    try {
+      const result = await Promise.all(
+        ids.map(async id => {
+          //删除数据
+          let singleResult = await this.app.mysql.delete("game_comment", {
+            id: id
+          });
+          const insertSuccess = singleResult.affectedRows === 1;
+          console.log("singleResult.affectedRows: ", singleResult.affectedRows);
+          if (!insertSuccess) throw new Error("删除失败");
+        })
+      );
+      return result;
+    } catch (error) {
+      throw new Error(error);
+      this.logger.error(error);
+      return err.code;
+    }
+  }
 }
 
 module.exports = GameCommentService;

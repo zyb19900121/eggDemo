@@ -8,7 +8,7 @@ module.exports = appInfo => {
 			port: 3000,
 			hostname: '127.0.0.1',
 			// hostname: '192.168.31.66', //测试
-			// hostname: '172.23.177.47',//测试
+			// hostname: '172.22.152.111',//测试
 
 			// path: '/var/run/egg.sock',
 		}
