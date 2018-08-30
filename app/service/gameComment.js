@@ -6,29 +6,43 @@ class GameCommentService extends Service {
   }
 
   async index(payload) {
-    console.log("payload: ", payload);
+    
     // 查询所有
     try {
       let result = {};
-
-      let condition = {};
+      let condition = "1 = 1";
+      let limit = payload.pageSize * 1;
+      let offset = (payload.currentPage - 1) * payload.pageSize;
+      let orderBy = "create_date DESC";
 
       if (payload.gameId) {
-        condition = {
-          game_id: payload.gameId
-        };
+        condition += ` AND game_id = ${payload.gameId}`;
       }
 
+      if (payload.startDate && payload.endDate) {
+        condition += ` AND create_date BETWEEN '${payload.startDate}' AND '${
+          payload.endDate
+        }'`;
+      }
+
+      let sql = `select * from game_comment where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+      let countSql = `select count(*) as total from game_comment where ${condition}`;
       //查询结果的数组
-      result.list = await this.app.mysql.select("game_comment", {
-        where: condition,
-        limit: payload.pageSize * 1, // 返回数据量
-        offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
-        orders: [["create_date", "desc"]] //排序
-      });
+      // result.list = await this.app.mysql.select("game_comment", {
+      //   where: condition,
+      //   limit: payload.pageSize * 1, // 返回数据量
+      //   offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
+      //   orders: [["create_date", "desc"]] //排序
+      // });
       //查询结果的总数
-      result.total = await this.app.mysql.count("game_comment", condition);
-      console.log("result: ", result);
+      // result.total = await this.app.mysql.count("game_comment", condition);
+
+      //查询结果的数组
+      result.list = await this.app.mysql.query(sql);
+
+      //查询结果的总数
+      let total = await this.app.mysql.query(countSql);
+      result.total = total[0].total
       return result;
     } catch (err) {
       this.logger.error(err);
@@ -42,7 +56,7 @@ class GameCommentService extends Service {
       const result = await this.app.mysql.get("game_comment", {
         id: id
       });
-      console.log("result: ", result);
+      
       return result;
     } catch (err) {
       this.logger.error(err);
@@ -69,7 +83,7 @@ class GameCommentService extends Service {
   }
 
   async destroy(ids) {
-    console.log("ids: ", ids);
+    
     try {
       const result = await Promise.all(
         ids.map(async id => {
@@ -78,7 +92,7 @@ class GameCommentService extends Service {
             id: id
           });
           const insertSuccess = singleResult.affectedRows === 1;
-          console.log("singleResult.affectedRows: ", singleResult.affectedRows);
+          
           if (!insertSuccess) throw new Error("删除失败");
         })
       );
