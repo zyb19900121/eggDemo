@@ -6,10 +6,11 @@ class GameCommentService extends Service {
   }
 
   async index(payload) {
-    
     // 查询所有
     try {
       let result = {};
+      let fields =
+        "game_comment.id, game_comment.username, game_comment.user_avatar, game_comment.comment_content, game_comment.create_date, game_comment.game_id, game.game_name";
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
       let offset = (payload.currentPage - 1) * payload.pageSize;
@@ -25,7 +26,13 @@ class GameCommentService extends Service {
         }'`;
       }
 
-      let sql = `select * from game_comment where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+      // 查出游戏名称
+      // select game_comment.id, game_comment.username, game_comment.user_avatar, game_comment.comment_content, game_comment.create_date, game_comment.game_id, game.game_name
+      // from game_comment
+      // LEFT JOIN game ON game_comment.game_id = game.id
+      // where 1 = 1 ORDER BY create_date DESC LIMIT 15 OFFSET 0
+
+      let sql = `select ${fields} from game_comment LEFT JOIN game ON game_comment.game_id = game.id where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
       let countSql = `select count(*) as total from game_comment where ${condition}`;
       //查询结果的数组
       // result.list = await this.app.mysql.select("game_comment", {
@@ -39,10 +46,11 @@ class GameCommentService extends Service {
 
       //查询结果的数组
       result.list = await this.app.mysql.query(sql);
+      console.log("sql: ", sql);
 
       //查询结果的总数
       let total = await this.app.mysql.query(countSql);
-      result.total = total[0].total
+      result.total = total[0].total;
       return result;
     } catch (err) {
       this.logger.error(err);
@@ -56,7 +64,7 @@ class GameCommentService extends Service {
       const result = await this.app.mysql.get("game_comment", {
         id: id
       });
-      
+
       return result;
     } catch (err) {
       this.logger.error(err);
@@ -83,7 +91,6 @@ class GameCommentService extends Service {
   }
 
   async destroy(ids) {
-    
     try {
       const result = await Promise.all(
         ids.map(async id => {
@@ -92,7 +99,7 @@ class GameCommentService extends Service {
             id: id
           });
           const insertSuccess = singleResult.affectedRows === 1;
-          
+
           if (!insertSuccess) throw new Error("删除失败");
         })
       );
