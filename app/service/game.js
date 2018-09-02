@@ -26,6 +26,7 @@ class GameService extends Service {
       console.log("result: ", result);
       return result;
     } catch (err) {
+			throw new Error(err);
       this.logger.error(err);
       return err.code;
     }

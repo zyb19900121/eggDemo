@@ -12,11 +12,16 @@ class GameCommentController extends Controller {
     // 调用 service 创建一个 user
     const { ctx, service } = this;
     // 组装参数
-    const payload = ctx.query;
-    const result = await service.gameComment.index(payload);
-    // 设置响应体和状态码
-    ctx.body = result;
-    ctx.status = 200;
+    try {
+      const payload = ctx.query;
+      const result = await service.gameComment.index(payload);
+      // 设置响应体和状态码
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
   }
 
   async show() {
