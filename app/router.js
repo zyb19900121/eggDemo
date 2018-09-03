@@ -13,6 +13,7 @@ module.exports = app => {
 	router.resources('gameComment', '/api/gameComment', controller.gameComment);
 
 	router.post('/login', controller.user.login);
+	router.post('/manage/fileUpload', controller.fileUpload.upload);
 	router.resources('user', '/manage/user', controller.user);
 	router.resources('game', '/manage/game', controller.game);
 	router.resources('appInfo', '/manage/appInfo', controller.appInfo);
