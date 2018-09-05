@@ -10,7 +10,9 @@ class FileUploadController extends Controller {
     // file not exists will response 400 error
     // 获取 steam
 
-    const stream = await ctx.getFileStream();
+		const stream = await ctx.getFileStream();
+		console.log('stream: ', stream);
+		console.log('stream.fields.type: ', stream.fields.type);
     let dir = "";
     if (stream.fields.type) {
       dir = `${stream.fields.type}/`;
