@@ -9,7 +9,12 @@ class FileUploadController extends Controller {
     const { ctx } = this;
     // file not exists will response 400 error
     // 获取 steam
+
     const stream = await ctx.getFileStream();
+    let dir = "";
+    if (stream.fields.type) {
+      dir = `${stream.fields.type}/`;
+    }
     // 生成文件名
     const filename =
       Date.now() +
@@ -18,13 +23,13 @@ class FileUploadController extends Controller {
       path.extname(stream.filename);
 
     // 写入路径
-    const target = path.join("app/public/uploadFiles/", filename);
+    const target = path.join(`app/public/uploadFiles/${dir}`, filename);
     const writeStream = fs.createWriteStream(target);
-    
+
     try {
       // 写入文件
       await awaitWriteStream(stream.pipe(writeStream));
-      ctx.body = { url: `/public/uploadFiles/${filename}` };
+      ctx.body = { url: `/public/uploadFiles/${dir}${filename}` };
       ctx.status = 200;
     } catch (err) {
       // 必须将上传的文件流消费掉，要不然浏览器响应会卡死
