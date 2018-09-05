@@ -11,10 +11,9 @@ class FileUploadController extends Controller {
     // 获取 steam
 
 		const stream = await ctx.getFileStream();
-		console.log('stream: ', stream);
-		console.log('stream.fields.type: ', stream.fields.type);
     let dir = "";
     if (stream.fields.type) {
+			
       dir = `${stream.fields.type}/`;
     }
     // 生成文件名
