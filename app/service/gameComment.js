@@ -51,9 +51,9 @@ class GameCommentService extends Service {
       //查询结果的总数
       let total = await this.app.mysql.query(countSql);
       result.total = total[0].total;
-			return result;
+      return result;
     } catch (err) {
-			throw new Error(err);
+      throw new Error(err);
       this.logger.error(err);
       return err.code;
     }

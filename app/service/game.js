@@ -26,7 +26,7 @@ class GameService extends Service {
       console.log("result: ", result);
       return result;
     } catch (err) {
-			throw new Error(err);
+      throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
@@ -42,6 +42,39 @@ class GameService extends Service {
       return result;
     } catch (err) {
       this.logger.error(err);
+      return err.code;
+    }
+  }
+
+  async create(newGame) {
+    console.log("newGame: ", newGame);
+    // 检查调用是否成功，如果调用失败会抛出异常
+    // this.checkSuccess(result);
+    // 插入;
+    try {
+      const result = await this.app.mysql.insert("game", newGame);
+      const insertSuccess = result.affectedRows === 1;
+      if (!insertSuccess) throw new Error("添加失败");
+      return {
+        msg: "添加成功"
+      };
+    } catch (err) {
+      this.logger.error(err);
+      throw new Error(err);
+    }
+  }
+
+  async destroy(id) {
+    try {
+      let result = await this.app.mysql.delete("game", {
+        id: id
+      });
+      const insertSuccess = result.affectedRows === 1;
+      if (!insertSuccess) throw new Error("删除失败");
+      return result;
+    } catch (error) {
+      throw new Error(error);
+      this.logger.error(error);
       return err.code;
     }
   }

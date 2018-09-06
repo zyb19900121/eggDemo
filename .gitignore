@@ -1,5 +1,6 @@
 logs/
 app/public/uploadFiles/
+app/public/backup/
 npm-debug.log
 yarn-error.log
 node_modules/
