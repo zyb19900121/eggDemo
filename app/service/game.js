@@ -46,17 +46,41 @@ class GameService extends Service {
     }
   }
 
-  async create(newGame) {
-    console.log("newGame: ", newGame);
+  async create(game) {
+    console.log("game: ", game);
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
     // 插入;
     try {
-      const result = await this.app.mysql.insert("game", newGame);
+      const result = await this.app.mysql.insert("game", game);
       const insertSuccess = result.affectedRows === 1;
       if (!insertSuccess) throw new Error("添加失败");
       return {
         msg: "添加成功"
+      };
+    } catch (err) {
+      this.logger.error(err);
+      throw new Error(err);
+    }
+  }
+
+  async update(id, game) {
+    console.log("newGame: ", game);
+    // 检查调用是否成功，如果调用失败会抛出异常
+    // this.checkSuccess(result);
+    // 插入;
+    const condition = {
+      where: {
+        id: id
+      }
+    };
+
+    try {
+      const result = await this.app.mysql.update("game", game, condition);
+      const insertSuccess = result.affectedRows === 1;
+      if (!insertSuccess) throw new Error("添加失败");
+      return {
+        msg: "修改成功"
       };
     } catch (err) {
       this.logger.error(err);
