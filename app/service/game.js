@@ -7,23 +7,31 @@ class GameService extends Service {
   }
 
   async index(payload) {
-    console.log("payload: ", payload);
     // 查询所有
     try {
-      let condition = {};
-      let columns = ["id", "game_name", "game_cover", "game_desc", "sale_date"];
-      if (payload.isSold) {
-        Object.assign(condition, { is_sold: payload.isSold });
-      }
+      let result = {};
+      let fields =
+        "id, game_name, game_name_en, game_type, game_score, game_desc, game_cover, is_sold, sale_date";
+      let condition = "1 = 1";
+      let limit = payload.pageSize * 1;
+      let offset = (payload.currentPage - 1) * payload.pageSize;
+      let orderBy = "create_date";
+
+      let sql = `select ${fields} from game where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+
       if (payload.isFilter) {
         //如果是筛选游戏的话，不用返回那么字段
-        columns = ["id", "game_name"];
+        fields = ["id", "game_name"];
+        sql = `select ${fields} from game`;
       }
-      const result = await this.app.mysql.select("game", {
-        where: condition,
-        columns: columns
-      });
-      console.log("result: ", result);
+
+      let countSql = `select count(*) as total from game where ${condition}`;
+
+      result.list = await this.app.mysql.query(sql);
+
+      let total = await this.app.mysql.query(countSql);
+      result.total = total[0].total;
+      //
       return result;
     } catch (err) {
       throw new Error(err);
@@ -38,7 +46,7 @@ class GameService extends Service {
       const result = await this.app.mysql.get("game", {
         id: id
       });
-      console.log("result: ", result);
+
       return result;
     } catch (err) {
       this.logger.error(err);
@@ -47,7 +55,6 @@ class GameService extends Service {
   }
 
   async create(game) {
-    console.log("game: ", game);
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
     // 插入;
@@ -65,7 +72,6 @@ class GameService extends Service {
   }
 
   async update(id, game) {
-    console.log("newGame: ", game);
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
     // 插入;
