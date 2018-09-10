@@ -14,12 +14,14 @@ class UserController extends Controller {
     try {
       const result = await ctx.service.user.login(user);
       if (result) {
+				console.log('result: ', result);
         // 设置响应体和状态码
         const token = this.app.jwt.sign(user, this.app.config.jwt.secret, {
           expiresIn: "12h"
         });
 
         ctx.body = {
+					userInfo:result,
           msg: "登陆成功",
           token
         };
