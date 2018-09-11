@@ -7,16 +7,17 @@ class UserService extends Service {
   }
 
   async login(user) {
-    console.log("user: ", user);
     // 查询单条
     try {
       const result = await this.app.mysql.get("user", {
         username: user.username,
         password: user.password
       });
+
       let userInfo = {
         username: result.username,
-        isAdmin: result.is_admin
+        isAdmin: result.is_admin,
+        name: result.name
       };
       return userInfo;
     } catch (err) {

@@ -15,7 +15,11 @@ class GameService extends Service {
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
       let offset = (payload.currentPage - 1) * payload.pageSize;
-      let orderBy = "create_date";
+			let orderBy = "create_date";
+			
+			if(payload.keyword){
+				condition = `game_name LIKE '%${payload.keyword}%' OR game_name_en LIKE '%${payload.keyword}%'`
+			}
 
       let sql = `select ${fields} from game where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
 
