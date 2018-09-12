@@ -21,10 +21,11 @@ class GameCommentService extends Service {
       }
 
       if (payload.startDate && payload.endDate) {
-        condition += ` AND create_date BETWEEN '${payload.startDate}' AND '${
+        condition += ` AND game_comment.create_date BETWEEN '${payload.startDate}' AND '${
           payload.endDate
         }'`;
-      }
+			}
+			
 
       // 查出游戏名称
       // select game_comment.id, game_comment.username, game_comment.user_avatar, game_comment.comment_content, game_comment.create_date, game_comment.game_id, game.game_name
@@ -32,7 +33,8 @@ class GameCommentService extends Service {
       // LEFT JOIN game ON game_comment.game_id = game.id
       // where 1 = 1 ORDER BY create_date DESC LIMIT 15 OFFSET 0
 
-      let sql = `select ${fields} from game_comment LEFT JOIN game ON game_comment.game_id = game.id where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+			let sql = `select ${fields} from game_comment LEFT JOIN game ON game_comment.game_id = game.id where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+			console.log('sql: ', sql);
       let countSql = `select count(*) as total from game_comment where ${condition}`;
       //查询结果的数组
       // result.list = await this.app.mysql.select("game_comment", {
@@ -53,6 +55,7 @@ class GameCommentService extends Service {
       result.total = total[0].total;
       return result;
     } catch (err) {
+			console.log('err: ', err);
       throw new Error(err);
       this.logger.error(err);
       return err.code;
