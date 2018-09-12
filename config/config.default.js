@@ -51,6 +51,8 @@ module.exports = appInfo => {
 			password: '19900121',
 			// 数据库名
 			database: 'demo',
+
+			// charset : 'utf8mb4' 识别emoji
 		},
 		// 是否加载到 app 上，默认开启
 		app: true,

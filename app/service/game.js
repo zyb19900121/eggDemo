@@ -21,13 +21,19 @@ class GameService extends Service {
 				condition = `game_name LIKE '%${payload.keyword}%' OR game_name_en LIKE '%${payload.keyword}%'`
 			}
 
+			if(payload.orderBy){
+				orderBy = `${payload.orderBy}`
+			}
+
       let sql = `select ${fields} from game where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
 
       if (payload.isFilter) {
         //如果是筛选游戏的话，不用返回那么字段
         fields = ["id", "game_name"];
         sql = `select ${fields} from game`;
-      }
+			}
+			
+			
 
       let countSql = `select count(*) as total from game where ${condition}`;
 
