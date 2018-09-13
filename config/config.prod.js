@@ -11,6 +11,8 @@ module.exports = appInfo => {
 		}
 	}
 
+	// --port=443 --https.key=./https/2_joyzone.xyz.key --https.cert=./https/1_joyzone.xyz_bundle.crt --daemon
+
 	// 关闭csrf安全机制(前后端分离作用不大)
 	exports.security = {
 		csrf: false,

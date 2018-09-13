@@ -27,7 +27,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-demo --port=443 --https.key=./https/2_joyzone.xyz.key --https.cert=./https/1_joyzone.xyz_bundle.crt --daemon",
+    "start": "egg-scripts start --daemon --title=egg-server-demo",
     "stop": "egg-scripts stop --title=egg-server-demo",
     "dev": "egg-bin dev ",
     "debug": "egg-bin debug",
