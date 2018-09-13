@@ -42,7 +42,8 @@ class GameController extends Controller {
     game.game_name_en = ctx.request.body.gameNameEn;
     game.game_type = ctx.request.body.gameType.join(",");
     game.game_score = ctx.request.body.gameScore;
-    game.game_cover = ctx.request.body.gameCover;
+		game.game_cover = ctx.request.body.gameCover;
+		game.platform = ctx.request.body.platform;
     game.is_sold = ctx.request.body.isSold;
     game.sale_date = ctx.request.body.saleDate;
     game.game_desc = ctx.request.body.gameDesc;
@@ -74,7 +75,8 @@ class GameController extends Controller {
     game.game_name_en = ctx.request.body.gameNameEn;
     game.game_score = ctx.request.body.gameScore;
     game.game_type = ctx.request.body.gameType.join(",");
-    game.game_cover = ctx.request.body.gameCover;
+		game.game_cover = ctx.request.body.gameCover;
+		game.platform = ctx.request.body.platform;
     game.is_sold = ctx.request.body.isSold;
     game.sale_date = ctx.request.body.saleDate;
     game.game_desc = ctx.request.body.gameDesc;

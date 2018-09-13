@@ -11,19 +11,37 @@ class GameService extends Service {
     try {
       let result = {};
       let fields =
-        "id, game_name, game_name_en, game_type, game_score, game_desc, game_cover, is_sold, sale_date";
+        "id, game_name, game_name_en, game_type, game_score, game_desc, game_cover, platform, is_sold, sale_date";
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
       let offset = (payload.currentPage - 1) * payload.pageSize;
-			let orderBy = "create_date";
-			
-			if(payload.keyword){
-				condition = `game_name LIKE '%${payload.keyword}%' OR game_name_en LIKE '%${payload.keyword}%'`
-			}
+      let orderBy = "create_date";
 
-			if(payload.orderBy){
-				orderBy = `${payload.orderBy}`
+      if (payload.keyword) {
+        condition += ` AND (game_name LIKE '%${
+          payload.keyword
+        }%' OR game_name_en LIKE '%${payload.keyword}%')`;
+      }
+
+      if (payload.orderBy) {
+        orderBy = `${payload.orderBy}`;
+      }
+
+      if (payload.platform) {
+        condition += ` AND platform LIKE '%${payload.platform}%'`;
+      }
+
+      if (payload.gameType) {
+        condition += ` AND game_type LIKE '%${payload.gameType}%'`;
+      }
+
+      if (payload.isSold === 'true') {
+        condition += ` AND is_sold = 1`;
 			}
+			
+			if (payload.isSold === 'false') {
+        condition += ` AND is_sold = 0`;
+      }
 
       let sql = `select ${fields} from game where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
 
@@ -31,9 +49,7 @@ class GameService extends Service {
         //如果是筛选游戏的话，不用返回那么字段
         fields = ["id", "game_name"];
         sql = `select ${fields} from game`;
-			}
-			
-			
+      }
 
       let countSql = `select count(*) as total from game where ${condition}`;
 
