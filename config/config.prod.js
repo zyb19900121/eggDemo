@@ -5,12 +5,12 @@ module.exports = appInfo => {
 
   exports.cluster = {
     listen: {
-      port: 3000,
+      port: 443,
       hostname: "172.21.0.9",
       // path: '/var/run/egg.sock',
-      // https: true,
-      // key: "../https/2_joyzone.xyz.key",
-      // cert: "../https/1_joyzone.xyz_bundle.crt"
+      https: true,
+      key: "../https/2_joyzone.xyz.key",
+      cert: "../https/1_joyzone.xyz_bundle.crt"
     }
   };
 
