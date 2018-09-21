@@ -31,6 +31,19 @@ class GameCompanyService extends Service {
     }
   }
 
+  async show(id) {
+    // 查询单条
+    try {
+      const result = await this.app.mysql.get("game_company", {
+        id: id
+      });
+      return result;
+    } catch (err) {
+      this.logger.error(err);
+      return err.code;
+    }
+  }
+
   async create(params) {
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
@@ -43,6 +56,29 @@ class GameCompanyService extends Service {
     } catch (err) {
       this.logger.error(err);
       return err.code;
+    }
+  }
+
+  async update(id, gameCompany) {
+    // 检查调用是否成功，如果调用失败会抛出异常
+    // this.checkSuccess(result);
+    // 插入;
+    const condition = {
+      where: {
+        id: id
+      }
+    };
+
+    try {
+      const result = await this.app.mysql.update("game_company", gameCompany, condition);
+      const insertSuccess = result.affectedRows === 1;
+      if (!insertSuccess) throw new Error("添加失败");
+      return {
+        msg: "修改成功"
+      };
+    } catch (err) {
+      this.logger.error(err);
+      throw new Error(err);
     }
   }
 
