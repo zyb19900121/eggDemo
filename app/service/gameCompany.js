@@ -12,13 +12,24 @@ class GameCompanyService extends Service {
       let result = {};
       let condition = null;
 
+      if (payload.isFilter) {
+        //如果是筛选游戏的话，不用返回那么字段
+        // fields = [ "company_name_en"];
+        // sql = `select ${fields} from game`;
+        result.list = await this.app.mysql.select("game_company", {
+          columns: ["company_name_en"] // 要查询的表字段
+        });
+      } else {
+        result.list = await this.app.mysql.select("game_company", {
+          where: condition,
+          limit: payload.pageSize * 1, // 返回数据量
+          offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
+          orders: ["order"] //排序
+        });
+      }
+
       // 查询结果的数组;
-      result.list = await this.app.mysql.select("game_company", {
-        where: condition,
-        limit: payload.pageSize * 1, // 返回数据量
-        offset: (payload.currentPage - 1) * payload.pageSize, // 数据偏移量
-        orders: ["order"] //排序
-      });
+
       // 查询结果的总数;
       result.total = await this.app.mysql.count("game_company", condition);
 
@@ -70,7 +81,11 @@ class GameCompanyService extends Service {
     };
 
     try {
-      const result = await this.app.mysql.update("game_company", gameCompany, condition);
+      const result = await this.app.mysql.update(
+        "game_company",
+        gameCompany,
+        condition
+      );
       const insertSuccess = result.affectedRows === 1;
       if (!insertSuccess) throw new Error("添加失败");
       return {
