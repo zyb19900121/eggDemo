@@ -35,11 +35,11 @@ class GameService extends Service {
         condition += ` AND game_type LIKE '%${payload.gameType}%'`;
       }
 
-      if (payload.isSold === 'true') {
+      if (payload.isSold === "true") {
         condition += ` AND is_sold = 1`;
-			}
-			
-			if (payload.isSold === 'false') {
+      }
+
+      if (payload.isSold === "false") {
         condition += ` AND is_sold = 0`;
       }
 
@@ -98,6 +98,7 @@ class GameService extends Service {
   }
 
   async update(id, game) {
+    console.log("game: ", game);
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
     // 插入;
