@@ -22,12 +22,53 @@ class GameTypeController extends Controller {
     }
   }
 
+  async show() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+    try {
+      const result = await ctx.service.gameType.show(id);
+      // 设置响应体和状态码
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
+  }
+
   async create() {
     const { ctx } = this;
-    const result = await ctx.service.gameType.create(ctx.request.body);
-    // 设置响应体和状态码
-    ctx.body = result;
-    ctx.status = 200;
+    let gameType = {};
+    gameType.type_name_cn = ctx.request.body.typeNameCn;
+    gameType.type_name_en = ctx.request.body.typeNameEn;
+    gameType.type_desc = ctx.request.body.typeDesc;
+    gameType.order = ctx.request.body.typeOrder;
+    try {
+      const result = await ctx.service.gameType.create(gameType);
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
+  }
+
+  async update() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+    let gameType = {};
+    gameType.type_name_cn = ctx.request.body.typeNameCn;
+    gameType.type_name_en = ctx.request.body.typeNameEn;
+    gameType.type_desc = ctx.request.body.typeDesc;
+    gameType.order = ctx.request.body.typeOrder;
+    try {
+      const result = await ctx.service.gameType.update(id, gameType);
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
   }
 
   async destroy() {
@@ -43,7 +84,7 @@ class GameTypeController extends Controller {
       ctx.body = result;
       ctx.status = 200;
     } catch (error) {
-			console.log('error: ', error);
+      console.log("error: ", error);
       ctx.body = { error: error.toString() };
       ctx.status = 500;
     }

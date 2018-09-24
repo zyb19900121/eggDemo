@@ -28,7 +28,6 @@ class GameCompanyService extends Service {
         });
       }
 
-      // 查询结果的数组;
 
       // 查询结果的总数;
       result.total = await this.app.mysql.count("game_company", condition);
