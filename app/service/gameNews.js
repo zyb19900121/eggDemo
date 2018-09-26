@@ -10,7 +10,7 @@ class GameNewsService extends Service {
     try {
       let result = {};
       let fields =
-        "game_news.id, game_news.news_title, game_news.news_content, game_news.platform, game_news.create_date, game_news.game_id, game.game_name";
+        "game_news.id, game_news.news_title, game_news.news_thumbnail, game_news.news_content, game_news.platform, game_news.create_date, game_news.game_id, game.game_name";
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
       let offset = (payload.currentPage - 1) * payload.pageSize;
@@ -18,6 +18,10 @@ class GameNewsService extends Service {
 
       if (payload.gameId) {
         condition += ` AND game_id = ${payload.gameId}`;
+      }
+
+      if (payload.platform) {
+        condition += ` AND game_news.platform LIKE '%${payload.platform}%'`;
       }
 
       if (payload.startDate && payload.endDate) {
@@ -53,7 +57,7 @@ class GameNewsService extends Service {
       result.total = total[0].total;
       return result;
     } catch (err) {
-			console.log('err: ', err);
+      console.log("err: ", err);
       throw new Error(err);
       this.logger.error(err);
       return err.code;
