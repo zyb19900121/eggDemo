@@ -57,7 +57,6 @@ class GameNewsService extends Service {
       result.total = total[0].total;
       return result;
     } catch (err) {
-      console.log("err: ", err);
       throw new Error(err);
       this.logger.error(err);
       return err.code;
@@ -72,6 +71,7 @@ class GameNewsService extends Service {
       });
       return result;
     } catch (err) {
+			throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
@@ -87,6 +87,7 @@ class GameNewsService extends Service {
       if (!insertSuccess) throw new Error("添加失败");
       return { msg: "添加成功" };
     } catch (err) {
+			throw new Error(err);
       this.logger.error(err);
       return err.code;
     }

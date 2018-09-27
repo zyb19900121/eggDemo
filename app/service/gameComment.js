@@ -68,6 +68,7 @@ class GameCommentService extends Service {
 
       return result;
     } catch (err) {
+			throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
@@ -86,7 +87,7 @@ class GameCommentService extends Service {
         msg: "添加成功"
       };
     } catch (err) {
-      // this.logger.error(err);
+      this.logger.error(err);
       throw new Error(err);
     }
   }

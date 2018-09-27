@@ -48,6 +48,7 @@ class GameTypeService extends Service {
       });
       return result;
     } catch (err) {
+			throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
@@ -63,6 +64,7 @@ class GameTypeService extends Service {
       if (!insertSuccess) throw new Error("添加失败");
       return { msg: "添加成功" };
     } catch (err) {
+			throw new Error(err);
       this.logger.error(err);
       return err.code;
     }

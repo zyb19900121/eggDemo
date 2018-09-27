@@ -26,10 +26,11 @@ class GameNewsController extends Controller {
   async create() {
     const { ctx } = this;
     let gameNews = {};
-    gameNews.company_name_cn = ctx.request.body.companyNameCn;
-    gameNews.company_name_en = ctx.request.body.companyNameEn;
-    gameNews.company_desc = ctx.request.body.companyDesc;
-    gameNews.order = ctx.request.body.companyOrder;
+    gameNews.news_title = ctx.request.body.newsTitle;
+    gameNews.news_content = ctx.request.body.newsContent;
+    gameNews.news_thumbnail = ctx.request.body.newsThumbnail;
+		gameNews.platform = ctx.request.body.platform;
+		gameNews.game_id = ctx.request.body.gameId;
     try {
       const result = await ctx.service.gameNews.create(gameNews);
       ctx.body = result;
@@ -46,10 +47,11 @@ class GameNewsController extends Controller {
     const { ctx } = this;
     const { id } = ctx.params;
     let gameNews = {};
-    gameNews.company_name_cn = ctx.request.body.companyNameCn;
-    gameNews.company_name_en = ctx.request.body.companyNameEn;
-    gameNews.company_desc = ctx.request.body.companyDesc;
-    gameNews.order = ctx.request.body.companyOrder;
+    gameNews.news_title = ctx.request.body.newsTitle;
+    gameNews.news_content = ctx.request.body.newsContent;
+    gameNews.news_thumbnail = ctx.request.body.newsThumbnail;
+		gameNews.platform = ctx.request.body.platform;
+		gameNews.game_id = ctx.request.body.gameId;
     try {
       const result = await ctx.service.gameNews.update(id, gameNews);
       ctx.body = result;
