@@ -1,5 +1,6 @@
 logs/
 app/public/uploadFiles/
+app/public/game_cover/
 app/public/backup/
 npm-debug.log
 yarn-error.log
