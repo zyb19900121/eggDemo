@@ -31,6 +31,7 @@ class GameNewsController extends Controller {
     gameNews.news_thumbnail = ctx.request.body.newsThumbnail;
 		gameNews.platform = ctx.request.body.platform;
 		gameNews.game_id = ctx.request.body.gameId;
+		gameNews.is_banner = ctx.request.body.isBanner;
     try {
       const result = await ctx.service.gameNews.create(gameNews);
       ctx.body = result;
@@ -52,6 +53,7 @@ class GameNewsController extends Controller {
     gameNews.news_thumbnail = ctx.request.body.newsThumbnail;
 		gameNews.platform = ctx.request.body.platform;
 		gameNews.game_id = ctx.request.body.gameId;
+		gameNews.is_banner = ctx.request.body.isBanner;
     try {
       const result = await ctx.service.gameNews.update(id, gameNews);
       ctx.body = result;

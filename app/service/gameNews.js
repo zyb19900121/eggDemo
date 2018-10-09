@@ -24,6 +24,14 @@ class GameNewsService extends Service {
         condition += ` AND game_news.platform LIKE '%${payload.platform}%'`;
       }
 
+      if (payload.isBanner === "true") {
+        condition += ` AND game_news.is_banner = 1`;
+      }
+
+      if (payload.isBanner === "false") {
+        condition += ` AND game_news.is_banner = 0`;
+      }
+
       if (payload.startDate && payload.endDate) {
         condition += ` AND game_news.create_date BETWEEN '${
           payload.startDate
@@ -71,7 +79,7 @@ class GameNewsService extends Service {
       });
       return result;
     } catch (err) {
-			throw new Error(err);
+      throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
@@ -87,7 +95,7 @@ class GameNewsService extends Service {
       if (!insertSuccess) throw new Error("添加失败");
       return { msg: "添加成功" };
     } catch (err) {
-			throw new Error(err);
+      throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
