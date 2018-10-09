@@ -71,6 +71,7 @@ module.exports = appInfo => {
     match: ["/manage"] // 需要认证的接口
   };
 
+  //修改post请求参数的大小限制
   exports.bodyParser = {
     jsonLimit: "10mb",
     formLimit: "10mb"
