@@ -101,7 +101,7 @@ class GameNewsService extends Service {
     }
   }
 
-  async update(id, gameCompany) {
+  async update(id, gameNews) {
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
     // 插入;
@@ -114,7 +114,7 @@ class GameNewsService extends Service {
     try {
       const result = await this.app.mysql.update(
         "game_news",
-        gameCompany,
+        gameNews,
         condition
       );
       const insertSuccess = result.affectedRows === 1;
