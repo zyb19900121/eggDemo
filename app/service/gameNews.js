@@ -10,7 +10,7 @@ class GameNewsService extends Service {
     try {
       let result = {};
       let fields =
-        "game_news.id, game_news.news_title, game_news.news_thumbnail, game_news.platform, game_news.create_date, game_news.game_id, game.game_name";
+        "game_news.id, game_news.news_title, game_news.news_thumbnail, game_news.platform, game_news.create_date, game_news.game_id, game_news.views_count, game.game_name";
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
       let offset = (payload.currentPage - 1) * payload.pageSize;
