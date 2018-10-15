@@ -77,8 +77,10 @@ class GameNewsService extends Service {
       const result = await this.app.mysql.get("game_news", {
         id: id
       });
-      return result;
+			return result;
+			console.log('resultService: ', result);
     } catch (err) {
+			console.log('errService: ', err);
       throw new Error(err);
       this.logger.error(err);
       return err.code;

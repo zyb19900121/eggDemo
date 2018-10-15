@@ -74,9 +74,11 @@ class GameNewsController extends Controller {
     try {
       const result = await ctx.service.gameNews.show(id);
       // 设置响应体和状态码
-      ctx.body = result;
+			ctx.body = result;
+			console.log('result: ', result);
       ctx.status = 200;
     } catch (error) {
+			console.log('error: ', error);
       ctx.body = { error: error.toString() };
       ctx.status = 500;
     }
