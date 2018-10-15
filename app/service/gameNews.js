@@ -78,9 +78,8 @@ class GameNewsService extends Service {
         id: id
       });
 			return result;
-			console.log('resultService: ', result);
+			
     } catch (err) {
-			console.log('errService: ', err);
       throw new Error(err);
       this.logger.error(err);
       return err.code;
