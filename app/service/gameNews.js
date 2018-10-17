@@ -44,7 +44,8 @@ class GameNewsService extends Service {
       // LEFT JOIN game ON game_comment.game_id = game.id
       // where 1 = 1 ORDER BY create_date DESC LIMIT 15 OFFSET 0
 
-      let sql = `select ${fields} from game_news LEFT JOIN game ON game_news.game_id = game.id where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+			let sql = `select ${fields} from game_news LEFT JOIN game ON game_news.game_id = game.id where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
+			
 
       let countSql = `select count(*) as total from game_news where ${condition}`;
       //查询结果的数组
