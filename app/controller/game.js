@@ -44,8 +44,8 @@ class GameController extends Controller {
     game.game_language = ctx.request.body.gameLanguage.join(",");
     game.game_score = ctx.request.body.gameScore;
     game.game_cover = ctx.request.body.gameCover;
-		game.game_developers = ctx.request.body.gameDevelopers;
-		game.game_publisher = ctx.request.body.gamePublisher;
+    game.game_developers = ctx.request.body.gameDevelopers;
+    game.game_publisher = ctx.request.body.gamePublisher;
     game.platform = ctx.request.body.platform;
     game.is_sold = ctx.request.body.isSold;
     game.sale_date = ctx.request.body.saleDate;
@@ -66,35 +66,49 @@ class GameController extends Controller {
     const { ctx, service } = this;
     const { id } = ctx.params;
 
-    this.ctx.validate({
-      gameName: {
-        type: "string",
-        required: true
+    console.log("ctx.request.body: ", Boolean(ctx.request.body.gameName));
+
+    if (ctx.request.body.gameName) {
+      this.ctx.validate({
+        gameName: {
+          type: "string",
+          required: true
+        }
+      });
+
+      let game = {};
+      game.game_name = ctx.request.body.gameName;
+      game.game_name_en = ctx.request.body.gameNameEn;
+      game.game_score = ctx.request.body.gameScore;
+      game.game_type = ctx.request.body.gameType.join(",");
+      game.game_language = ctx.request.body.gameLanguage.join(",");
+      game.game_cover = ctx.request.body.gameCover;
+      game.game_developers = ctx.request.body.gameDevelopers;
+      game.game_publisher = ctx.request.body.gamePublisher;
+      game.platform = ctx.request.body.platform;
+      game.is_sold = ctx.request.body.isSold;
+      game.sale_date = ctx.request.body.saleDate;
+      game.game_desc = ctx.request.body.gameDesc;
+
+      try {
+        const result = await service.game.update(id, game);
+        // 设置响应体和状态码
+        ctx.body = result;
+        ctx.status = 200;
+      } catch (error) {
+        ctx.status = 500;
+        ctx.body = { error: error.toString() };
       }
-    });
-
-    let game = {};
-    game.game_name = ctx.request.body.gameName;
-    game.game_name_en = ctx.request.body.gameNameEn;
-    game.game_score = ctx.request.body.gameScore;
-    game.game_type = ctx.request.body.gameType.join(",");
-    game.game_language = ctx.request.body.gameLanguage.join(",");
-    game.game_cover = ctx.request.body.gameCover;
-		game.game_developers = ctx.request.body.gameDevelopers;
-		game.game_publisher = ctx.request.body.gamePublisher;
-    game.platform = ctx.request.body.platform;
-    game.is_sold = ctx.request.body.isSold;
-    game.sale_date = ctx.request.body.saleDate;
-    game.game_desc = ctx.request.body.gameDesc;
-
-    try {
-      const result = await service.game.update(id, game);
-      // 设置响应体和状态码
-      ctx.body = result;
-      ctx.status = 200;
-    } catch (error) {
-      ctx.status = 500;
-      ctx.body = { error: error.toString() };
+    } else {
+      try {
+        const result = await service.game.update(id);
+        // 设置响应体和状态码
+        ctx.body = result;
+        ctx.status = 200;
+      } catch (error) {
+        ctx.status = 500;
+        ctx.body = { error: error.toString() };
+      }
     }
   }
 

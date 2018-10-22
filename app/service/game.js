@@ -75,7 +75,7 @@ class GameService extends Service {
 
       return result;
     } catch (err) {
-			throw new Error(err);
+      throw new Error(err);
       this.logger.error(err);
       return err.code;
     }
@@ -99,26 +99,44 @@ class GameService extends Service {
   }
 
   async update(id, game) {
-    console.log("game: ", game);
     // 检查调用是否成功，如果调用失败会抛出异常
     // this.checkSuccess(result);
     // 插入;
-    const condition = {
-      where: {
-        id: id
-      }
-    };
 
-    try {
-      const result = await this.app.mysql.update("game", game, condition);
-      const insertSuccess = result.affectedRows === 1;
-      if (!insertSuccess) throw new Error("添加失败");
-      return {
-        msg: "修改成功"
+    if (game) {
+      const condition = {
+        where: {
+          id: id
+        }
       };
-    } catch (err) {
-      this.logger.error(err);
-      throw new Error(err);
+
+      try {
+        const result = await this.app.mysql.update("game", game, condition);
+        const insertSuccess = result.affectedRows === 1;
+        if (!insertSuccess) throw new Error("修改失败");
+        return {
+          msg: "修改成功"
+        };
+      } catch (err) {
+        this.logger.error(err);
+        throw new Error(err);
+      }
+    } else {
+      try {
+        let sql = `update game set like_count = like_count+1  WHERE id = ${id}`;
+        let sql_getCount = `SELECT like_count from game WHERE id = ${id}`;
+        const result = await this.app.mysql.query(sql);
+        const likeCount = await this.app.mysql.query(sql_getCount);
+        const insertSuccess = result.affectedRows === 1;
+        if (!insertSuccess) throw new Error("修改失败");
+        return {
+          msg: "修改成功",
+          likeCount: likeCount[0].like_count
+        };
+      } catch (err) {
+        this.logger.error(err);
+        throw new Error(err);
+      }
     }
   }
 
