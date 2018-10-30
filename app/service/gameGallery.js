@@ -22,7 +22,7 @@ class GameGalleryService extends Service {
 
       let sql = `select ${fields} from game_gallery LEFT JOIN game ON game_gallery.game_id = game.id where ${condition} ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`;
 
-      let countSql = `select count(*) as total from game_comment where ${condition}`;
+      let countSql = `select count(*) as total from game_gallery where ${condition}`;
       //查询结果的数组
       result.list = await this.app.mysql.query(sql);
 
