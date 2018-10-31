@@ -14,7 +14,7 @@ class GameGalleryService extends Service {
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
       let offset = (payload.currentPage - 1) * payload.pageSize;
-      let orderBy = "create_date DESC";
+      let orderBy = "id DESC";
 
       if (payload.gameId) {
         condition += ` AND game_id = ${payload.gameId}`;
