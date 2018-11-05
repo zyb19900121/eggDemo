@@ -15,6 +15,7 @@ module.exports = app => {
 	router.resources('gameType', '/api/gameType', controller.gameType);
 	router.resources('gameNews', '/api/gameNews', controller.gameNews);
 	router.resources('gameGallery', '/api/gameGallery', controller.gameGallery);
+	router.resources('gameStrategy', '/api/gameStrategy', controller.gameStrategy);
 
 	router.post('/login', controller.user.login);
 	router.post('/manage/fileUpload', controller.fileUpload.upload);
@@ -27,5 +28,6 @@ module.exports = app => {
 	router.resources('gameType', '/manage/gameType', controller.gameType);
 	router.resources('gameNews', '/manage/gameNews', controller.gameNews);
 	router.resources('gameGallery', '/manage/gameGallery', controller.gameGallery);
+	router.resources('gameStrategy', '/manage/gameStrategy', controller.gameStrategy);
 
 };
