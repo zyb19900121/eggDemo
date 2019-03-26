@@ -1,23 +1,20 @@
 "use strict";
 
 const Controller = require("egg").Controller;
-
 class GameController extends Controller {
   async index() {
-    const { ctx, service } = this;
+    const { ctx } = this;
     const payload = ctx.query;
-    console.log("payload: ", payload);
-
-    // 校验 `ctx.request.body` 是否符合我们预期的格式
-    // 如果参数校验未通过，将会抛出一个 status = 422 的异常
-    // ctx.validate(createRule, ctx.request.body);
-    // 调用 service 创建一个 user
-    const result = await ctx.service.game.index(payload);
-    // 设置响应体和状态码
-    ctx.body = result;
-    ctx.status = 200;
+    try {
+      const result = await ctx.service.game.index(payload);
+      // 设置响应体和状态码
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
   }
-
   async show() {
     const { ctx } = this;
     const { id } = ctx.params;
@@ -26,7 +23,6 @@ class GameController extends Controller {
     ctx.body = result;
     ctx.status = 200;
   }
-
   async create() {
     const { ctx, service } = this;
 
@@ -61,7 +57,6 @@ class GameController extends Controller {
       ctx.body = { error: error.toString() };
     }
   }
-
   async update() {
     const { ctx, service } = this;
     const { id } = ctx.params;
@@ -111,7 +106,6 @@ class GameController extends Controller {
       }
     }
   }
-
   async destroy() {
     const { ctx, service } = this;
     const { id } = ctx.params;
