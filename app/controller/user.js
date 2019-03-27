@@ -1,5 +1,6 @@
 "use strict";
 var QcloudSms = require("qcloudsms_js");
+const jwt = require("jsonwebtoken");
 const Controller = require("egg").Controller;
 
 class UserController extends Controller {
@@ -110,6 +111,23 @@ class UserController extends Controller {
           error: error.toString()
         };
       }
+    }
+  }
+
+  async getCurrentUserInfo() {
+    const { ctx } = this;
+    const { authorization } = ctx.header;
+    let payload = jwt.decode(authorization.slice(7));
+    console.log("payload: ", payload);
+
+    try {
+      const result = await ctx.service.user.getCurrentUserInfo(payload.userName);
+      // 设置响应体和状态码
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
     }
   }
   //新建用户

@@ -11,6 +11,7 @@ class LogController extends Controller {
     // 如果参数校验未通过，将会抛出一个 status = 422 的异常
     // ctx.validate(createRule, ctx.request.body);
 
+
     try {
       const result = await ctx.service.log.index(payload);
       // 设置响应体和状态码
@@ -43,7 +44,6 @@ class LogController extends Controller {
       ctx.body = result;
       ctx.status = 200;
     } catch (error) {
-			console.log('error: ', error);
       ctx.body = { error: error.toString() };
       ctx.status = 500;
     }

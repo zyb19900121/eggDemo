@@ -18,7 +18,8 @@ class UserService extends Service {
         userInfo = {
           username: result.username,
           isAdmin: result.is_admin,
-          name: result.name
+          name: result.name,
+          authority: result.authority
         };
       }
 
@@ -41,7 +42,8 @@ class UserService extends Service {
         userInfo = {
           username: result.username,
           isAdmin: result.is_admin,
-          name: result.name
+          name: result.name,
+          authority: result.authority
         };
       }
 
@@ -53,7 +55,6 @@ class UserService extends Service {
   }
 
   async loginForReactByMobile(params) {
-		console.log('params: ', params);
     let result = {};
     let currentTime = new Date().getTime();
 
@@ -207,7 +208,9 @@ class UserService extends Service {
           let insertRow = await this.app.mysql.insert("user", {
             username: params.username,
             password: params.password,
-            mobile: params.mobile
+            mobile: params.mobile,
+            name: params.nickname,
+            authority: "user"
           }); // 在 user 表中，插入 user 的记录
           const insertSuccess = insertRow.affectedRows === 1;
           if (!insertSuccess) throw new Error("添加失败");
@@ -221,6 +224,20 @@ class UserService extends Service {
       return result;
     } catch (err) {
       throw new Error(err);
+    }
+  }
+
+  async getCurrentUserInfo(params) {
+    try {
+      const result = await this.app.mysql.select("user", {
+        where: { username: params },
+        columns: ["username", "name", "mobile", "authority"]
+      });
+
+      return result[0];
+    } catch (err) {
+      this.logger.error(err);
+      return err.code;
     }
   }
 
