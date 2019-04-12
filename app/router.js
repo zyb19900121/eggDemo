@@ -36,4 +36,11 @@ module.exports = app => {
 	router.resources('gameGallery', '/manage/gameGallery', controller.gameGallery);
 	router.resources('gameStrategy', '/manage/gameStrategy', controller.gameStrategy);
 
+
+
+	// react重写接口
+	router.resources('gameCommentReact', '/manage/gameCommentReact', controller.gameCommentReact);
+	router.resources('gameReact', '/manage/gameReact', controller.gameReact);
+	router.resources('gameTypeReact', '/manage/gameTypeReact', controller.gameTypeReact);
+	router.resources('gameCompanyReact', '/manage/gameCompanyReact', controller.gameCompanyReact);
 };

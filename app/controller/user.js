@@ -89,7 +89,7 @@ class UserController extends Controller {
           });
 
           ctx.body = {
-            userInfo: result,
+            ...result,
             msg: "登陆成功",
             status: "ok",
             type: "mobile",
@@ -121,7 +121,10 @@ class UserController extends Controller {
     console.log("payload: ", payload);
 
     try {
-      const result = await ctx.service.user.getCurrentUserInfo(payload.userName);
+      const result = await ctx.service.user.getCurrentUserInfo({
+        type: payload.type,
+        username: payload.userName || payload.mobile
+      });
       // 设置响应体和状态码
       ctx.body = result;
       ctx.status = 200;

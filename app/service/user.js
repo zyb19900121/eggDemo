@@ -228,9 +228,16 @@ class UserService extends Service {
   }
 
   async getCurrentUserInfo(params) {
+    let where;
+    if (params.type == "account") {
+      where = { username: params.username };
+    } else {
+      where = { mobile: params.username };
+    }
+
     try {
       const result = await this.app.mysql.select("user", {
-        where: { username: params },
+        where: where,
         columns: ["username", "name", "mobile", "authority"]
       });
 
