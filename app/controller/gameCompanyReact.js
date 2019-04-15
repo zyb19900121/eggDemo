@@ -25,11 +25,7 @@ class GameCompanyController extends Controller {
 
   async create() {
     const { ctx } = this;
-    let gameCompany = {};
-    gameCompany.company_name_cn = ctx.request.body.companyNameCn;
-    gameCompany.company_name_en = ctx.request.body.companyNameEn;
-    gameCompany.company_desc = ctx.request.body.companyDesc;
-    gameCompany.order = ctx.request.body.companyOrder;
+    let gameCompany = ctx.request.body;
     try {
       const result = await ctx.service.gameCompanyReact.create(gameCompany);
       ctx.body = result;
