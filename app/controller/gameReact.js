@@ -27,25 +27,17 @@ class GameController extends Controller {
     const { ctx, service } = this;
 
     this.ctx.validate({
-      gameName: {
+      game_name: {
         type: "string",
         required: true
       }
     });
 
-    let game = {};
-    game.game_name = ctx.request.body.gameName;
-    game.game_name_en = ctx.request.body.gameNameEn;
-    game.game_type = ctx.request.body.gameType.join(",");
-    game.game_language = ctx.request.body.gameLanguage.join(",");
-    game.game_score = ctx.request.body.gameScore;
-    game.game_cover = ctx.request.body.gameCover;
-    game.game_developers = ctx.request.body.gameDevelopers;
-    game.game_publisher = ctx.request.body.gamePublisher;
-    game.platform = ctx.request.body.platform;
-    game.is_sold = ctx.request.body.isSold;
-    game.sale_date = ctx.request.body.saleDate;
-    game.game_desc = ctx.request.body.gameDesc;
+    let game = ctx.request.body;
+
+    game.game_type = game.game_type && game.game_type.join(",");
+    game.game_language = game.game_language && game.game_language.join(",");
+    game.is_sold = game.is_sold ? "1" : "0";
 
     try {
       const result = await service.game.create(game);
@@ -60,8 +52,6 @@ class GameController extends Controller {
   async update() {
     const { ctx, service } = this;
     const { id } = ctx.params;
-
-    console.log("ctx.request.body: ", Boolean(ctx.request.body.gameName));
 
     if (ctx.request.body.gameName) {
       this.ctx.validate({

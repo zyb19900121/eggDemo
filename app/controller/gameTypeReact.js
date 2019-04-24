@@ -38,11 +38,7 @@ class GameTypeController extends Controller {
 
   async create() {
     const { ctx } = this;
-    let gameType = {};
-    gameType.type_name_cn = ctx.request.body.typeNameCn;
-    gameType.type_name_en = ctx.request.body.typeNameEn;
-    gameType.type_desc = ctx.request.body.typeDesc;
-    gameType.order = ctx.request.body.typeOrder;
+    let gameType = ctx.request.body;
     try {
       const result = await ctx.service.gameTypeReact.create(gameType);
       ctx.body = result;
@@ -56,11 +52,7 @@ class GameTypeController extends Controller {
   async update() {
     const { ctx } = this;
     const { id } = ctx.params;
-    let gameType = {};
-    gameType.type_name_cn = ctx.request.body.typeNameCn;
-    gameType.type_name_en = ctx.request.body.typeNameEn;
-    gameType.type_desc = ctx.request.body.typeDesc;
-    gameType.order = ctx.request.body.typeOrder;
+    let gameType = ctx.request.body;
     try {
       const result = await ctx.service.gameTypeReact.update(id, gameType);
       ctx.body = result;

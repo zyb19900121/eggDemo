@@ -14,7 +14,7 @@ class GameService extends Service {
         "id, game_name, game_name_en, game_type, game_score, game_language, like_count, game_desc, game_cover, platform, is_sold, sale_date";
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
-      let offset = (payload.currentPage - 1) * payload.pageSize;
+      let offset = (payload.current - 1) * payload.pageSize;
       let orderBy = "create_date";
 
       if (payload.keyword) {

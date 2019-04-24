@@ -25,14 +25,14 @@ class GameCompanyService extends Service {
           offset: (payload.current - 1) * payload.pageSize, // 数据偏移量
           orders: ["order"] //排序
         });
-      }
 
-      let total = await this.app.mysql.count("game_company", condition);
-      result.pagination = {
-        current: payload.current * 1,
-        pageSize: payload.pageSize * 1,
-        total: total
-      };
+        let total = await this.app.mysql.count("game_company", condition);
+        result.pagination = {
+          current: payload.current * 1,
+          pageSize: payload.pageSize * 1,
+          total: total
+        };
+      }
 
       return result;
     } catch (err) {
