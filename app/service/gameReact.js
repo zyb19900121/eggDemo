@@ -104,6 +104,7 @@ class GameService extends Service {
     // 插入;
 
     if (game) {
+			console.log('game: ', game);
       const condition = {
         where: {
           id: id

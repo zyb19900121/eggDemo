@@ -43,4 +43,5 @@ module.exports = app => {
 	router.resources('gameReact', '/manage/gameReact', controller.gameReact);
 	router.resources('gameTypeReact', '/manage/gameTypeReact', controller.gameTypeReact);
 	router.resources('gameCompanyReact', '/manage/gameCompanyReact', controller.gameCompanyReact);
+	router.resources('gameGalleryReact', '/manage/gameGalleryReact', controller.gameGalleryReact);
 };

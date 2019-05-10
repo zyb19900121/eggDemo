@@ -11,7 +11,8 @@ class UserController extends Controller {
   //用户登陆
   async login() {
     const { ctx } = this;
-    let user = ctx.request.body;
+		let user = ctx.request.body;
+		console.log('user: ', user);
     try {
       const result = await ctx.service.user.login(user);
       if (result) {
