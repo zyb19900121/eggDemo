@@ -6,7 +6,7 @@ module.exports = appInfo => {
   exports.cluster = {
     listen: {
       port: 3000,
-      hostname: "172.21.0.9",
+      hostname: "172.21.0.17",
       // path: '/var/run/egg.sock',
       // https: true,
       // key: "../https/2_joyzone.xyz.key",
@@ -49,9 +49,9 @@ module.exports = appInfo => {
       // 用户名
       user: "root",
       // 密码
-      password: "19900121",
+      password: "Zyb900121!",
       // 数据库名
-      database: "my_game"
+      database: "joyzone"
 
       // charset : 'utf8mb4' 识别emoji
     },
