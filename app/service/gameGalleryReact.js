@@ -6,6 +6,7 @@ class GameGalleryService extends Service {
   }
 
   async index(payload) {
+		console.log('payload: ', payload);
     // 查询所有
     try {
       let result = {};
@@ -13,7 +14,7 @@ class GameGalleryService extends Service {
         "game_gallery.id, game_gallery.image_src, game_gallery.create_date, game_gallery.game_id, game.game_name";
       let condition = "1 = 1";
       let limit = payload.pageSize * 1;
-      let offset = (payload.currentPage - 1) * payload.pageSize;
+      let offset = (payload.current - 1) * payload.pageSize;
       let orderBy = "id DESC";
 
       if (payload.gameId) {

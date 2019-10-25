@@ -5,14 +5,29 @@ const Controller = require("egg").Controller;
 
 class UserController extends Controller {
   async index() {
-    this.ctx.body = "user controller";
+    const { ctx, service } = this;
+    // 组装参数
+    const payload = ctx.query;
+    // 校验 `ctx.request.body` 是否符合我们预期的格式
+    // 如果参数校验未通过，将会抛出一个 status = 422 的异常
+    // ctx.validate(createRule, ctx.request.body);
+
+    try {
+      const result = await service.user.index(payload);
+      // 设置响应体和状态码
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
   }
 
   //用户登陆
   async login() {
     const { ctx } = this;
-		let user = ctx.request.body;
-		console.log('user: ', user);
+    let user = ctx.request.body;
+    console.log("user: ", user);
     try {
       const result = await ctx.service.user.login(user);
       if (result) {
@@ -260,6 +275,26 @@ class UserController extends Controller {
       ctx.body = result;
       ctx.status = 200;
     } catch (error) {
+      ctx.body = { error: error.toString() };
+      ctx.status = 500;
+    }
+  }
+
+  //删除
+  async destroy() {
+    const { ctx, service } = this;
+    const { id } = ctx.params;
+    let ids = id.split(",");
+    // 校验 `ctx.request.body` 是否符合我们预期的格式
+    // 如果参数校验未通过，将会抛出一个 status = 422 的异常
+    // ctx.validate(createRule, ctx.request.body);
+    try {
+      const result = await service.user.destroy(ids);
+      // 设置响应体和状态码
+      ctx.body = result;
+      ctx.status = 200;
+    } catch (error) {
+      console.log("error: ", error);
       ctx.body = { error: error.toString() };
       ctx.status = 500;
     }

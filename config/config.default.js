@@ -37,7 +37,7 @@ module.exports = appInfo => {
       // 密码
       password: "19900121",
       // 数据库名
-      database: "demo"
+      database: "joyzone"
 
       // charset : 'utf8mb4' 识别emoji
     },

@@ -6,15 +6,38 @@ class UserService extends Service {
     this.root = "https://cnodejs.org/api/v1";
   }
 
+  async index(payload) {
+    try {
+      let result = {};
+      let condition = {
+        is_show: 1
+      };
+
+      // 查询结果的数组;
+      result.list = await this.app.mysql.select("user", {
+        where: condition,
+        limit: payload.pageSize * 1, // 返回数据量
+        offset: (payload.currentPage - 1) * payload.pageSize // 数据偏移量
+      });
+
+      // 查询结果的总数;
+      result.total = await this.app.mysql.count("user", condition);
+
+      return result;
+    } catch (err) {
+      
+      throw new Error(err);
+    }
+  }
+
   async login(user) {
-		console.log('user: ', user);
     // 查询单条
     try {
       const result = await this.app.mysql.get("user", {
-				username: user.username,
+        username: user.username,
         password: user.password
       });
-			console.log('result: ', result);
+
       let userInfo = null;
       if (result) {
         userInfo = {
@@ -246,6 +269,27 @@ class UserService extends Service {
       return result[0];
     } catch (err) {
       this.logger.error(err);
+      return err.code;
+    }
+  }
+
+  async destroy(ids) {
+    try {
+      const result = await Promise.all(
+        ids.map(async id => {
+          //删除数据
+          let singleResult = await this.app.mysql.delete("user", {
+            id: id
+          });
+          const insertSuccess = singleResult.affectedRows === 1;
+
+          if (!insertSuccess) throw new Error("删除失败");
+        })
+      );
+      return result;
+    } catch (error) {
+      throw new Error(error);
+      this.logger.error(error);
       return err.code;
     }
   }

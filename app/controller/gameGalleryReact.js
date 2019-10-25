@@ -12,7 +12,7 @@ class GameGalleryController extends Controller {
     // ctx.validate(createRule, ctx.request.body);
 
     try {
-      const result = await ctx.service.gameGallery.index(payload);
+      const result = await ctx.service.gameGalleryReact.index(payload);
 
       // 设置响应体和状态码
       ctx.body = result;
